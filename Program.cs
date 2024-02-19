@@ -19,8 +19,13 @@ namespace DataStructures_ArmanSahota
             // Test Stack
             TestStack();
 
+            // Test the Queue with Two Stacks
+            TestQueueWithTwoStacks();
+
             Console.ReadLine();
         }
+
+
 
         static void TestSinglyLinkedList()
         {
@@ -163,9 +168,181 @@ namespace DataStructures_ArmanSahota
             // Displaying count after clearing the Stack
             Console.WriteLine("Count after clearing: " + stack.Count);
         }
+        static void TestQueueWithTwoStacks()
+        {
+            Console.WriteLine("Testing Queue with Two Stacks:");
 
-        // Implementation of Singly Linked List
-        class SinglyLinkedList<T>
+            QueueWithTwoStacks<int> queue = new QueueWithTwoStacks<int>();
+
+            // Enqueue elements
+            queue.Enqueue(1);
+            queue.Enqueue(2);
+            queue.Enqueue(3);
+
+            // Dequeue elements
+            Console.WriteLine("Dequeue: " + queue.Dequeue());
+            Console.WriteLine("Dequeue: " + queue.Dequeue());
+
+            // Enqueue more elements
+            queue.Enqueue(4);
+            queue.Enqueue(5);
+
+            // Peek at the front element
+            Console.WriteLine("Peek: " + queue.Peek());
+
+            // Dequeue the remaining elements
+            Console.WriteLine("Dequeue: " + queue.Dequeue());
+            Console.WriteLine("Dequeue: " + queue.Dequeue());
+
+            // Check if the queue is empty
+            Console.WriteLine("Is Empty: " + queue.IsEmpty);
+        }
+        // Testing Custom Queue Part 2 of MidTerm!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // Testing Custom Queue Part 2 of MidTerm!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // Testing Custom Queue Part 2 of MidTerm!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // Testing Custom Queue Part 2 of MidTerm!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // Testing Custom Queue Part 2 of MidTerm!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // Testing Custom Queue Part 2 of MidTerm!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // Testing Custom Queue Part 2 of MidTerm!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        // Custom Stack class implemented using a linked list
+        class CustomStack<T>
+        {
+            private class Node
+            {
+                public T Data { get; set; }
+                public Node Next { get; set; }
+
+                public Node(T data)
+                {
+                    Data = data;
+                    Next = null;
+                }
+            }
+
+            private Node top;
+
+            public void Push(T item)
+            {
+                Node newNode = new Node(item);
+                newNode.Next = top;
+                top = newNode;
+            }
+
+            public T Pop()
+            {
+                if (IsEmpty)
+                {
+                    throw new InvalidOperationException("The stack is empty.");
+                }
+
+                T data = top.Data;
+                top = top.Next;
+                return data;
+            }
+
+            public T Peek()
+            {
+                if (IsEmpty)
+                {
+                    throw new InvalidOperationException("The stack is empty.");
+                }
+
+                return top.Data;
+            }
+
+            public bool IsEmpty
+            {
+                get { return top == null; }
+            }
+
+            // Search for an item in the stack and return its position (1-based index)
+            public int Search(T item)
+            {
+                int index = 1;
+                Node current = top;
+
+                while (current != null)
+                {
+                    if (current.Data.Equals(item))
+                    {
+                        return index;
+                    }
+
+                    current = current.Next;
+                    index++;
+                }
+
+                return -1; // Item not found
+            }
+        }
+
+        // Queue with Two Stacks
+        class QueueWithTwoStacks<T>
+        {
+            private CustomStack<T> stack1;
+            private CustomStack<T> stack2;
+
+            public QueueWithTwoStacks()
+            {
+                stack1 = new CustomStack<T>();
+                stack2 = new CustomStack<T>();
+            }
+
+            public void Enqueue(T item)
+            {
+                // Push the item onto stack1
+                stack1.Push(item);
+            }
+
+            public T Dequeue()
+            {
+                if (IsEmpty())
+                {
+                    throw new InvalidOperationException("The queue is empty.");
+                }
+
+                // If stack2 is empty, transfer elements from stack1 to stack2
+                if (stack2.IsEmpty)
+                {
+                    while (!stack1.IsEmpty)
+                    {
+                        stack2.Push(stack1.Pop());
+                    }
+                }
+
+                // Pop the front element from stack2 (which corresponds to the front of the queue)
+                return stack2.Pop();
+            }
+
+            public T Peek()
+            {
+                if (IsEmpty())
+                {
+                    throw new InvalidOperationException("The queue is empty.");
+                }
+
+                // If stack2 is empty, transfer elements from stack1 to stack2
+                if (stack2.IsEmpty)
+                {
+                    while (!stack1.IsEmpty)
+                    {
+                        stack2.Push(stack1.Pop());
+                    }
+                }
+
+                // Peek at the front element in stack2 (which corresponds to the front of the queue)
+                return stack2.Peek();
+            }
+
+            public bool IsEmpty()
+            {
+                return stack1.IsEmpty && stack2.IsEmpty;
+            }
+        }
+    }
+    // Implementation of Singly Linked List
+    class SinglyLinkedList<T>
         {
             // Node class for Singly Linked List
             private class Node
@@ -584,6 +761,12 @@ namespace DataStructures_ArmanSahota
             {
                 get { return linkedList.Count; }
             }
+
+
+
+
         }
     }
-}
+
+        
+
